@@ -65,7 +65,6 @@
       become_method: sudo
       unarchive:
         src: /tmp/flink-1.7.1-bin-hadoop28-scala_2.11.tgz
-#       src: /opt/flink-1.7.1-bin-hadoop28-scala_2.11.tgz
         dest: /opt
 #     shell: tar -xvzf /opt/flink-1.7.1-bin-hadoop28-scala_2.11.tgz
       
