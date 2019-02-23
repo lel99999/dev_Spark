@@ -1,0 +1,15 @@
+{
+  "name": "clouddood/sparkAIO",
+  "description": "Box contains Spark 2.0.0, Ubuntu14.04_x64",
+  "versions": [
+    {
+      "version": "1.0.0",
+      "providers": [
+        {
+          "name": "virtualbox",
+          "url": "https://drive.google.com/open?id=14qdTENEJj9-IAoZWJIaemFgEj6NOzyZT"
+        }
+      ]
+    }
+  ]
+}
