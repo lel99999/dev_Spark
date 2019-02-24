@@ -1,4 +1,4 @@
-- hosts: flinkRH7
+- hosts: sparkRH7
   vars:  
     custom_repo: true
     java_link: https://drive.google.com/open?id=1bSq7I3MY3SvY4MHfowEyNq3l-sFMJa8B
