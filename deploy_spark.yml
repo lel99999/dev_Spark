@@ -1,4 +1,4 @@
-- hosts: flinkRH7
+- hosts: sparkRH7
   vars:  
     custom_repo: true
     java_link: https://drive.google.com/open?id=1bSq7I3MY3SvY4MHfowEyNq3l-sFMJa8B
@@ -59,7 +59,7 @@
     - name: use gdown to download jdk1.8.x from google drive
       shell: gdown https://drive.google.com/uc?id=1bSq7I3MY3SvY4MHfowEyNq3l-sFMJa8B
     - name: download spark 2.4 with hadoop 2.7
-      shell: wget hhttp://apache.mirrors.lucidnetworks.net/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz -P /tmp
+      shell: wget http://apache.mirrors.lucidnetworks.net/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz -P /tmp
     - name: unpack spark
       become: yes
       become_method: sudo
