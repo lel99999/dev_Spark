@@ -67,6 +67,8 @@
         src: /tmp/spark-2.4.0-bin-hadoop2.7.tgz
         dest: /opt
 #     shell: tar -xvzf /opt/spark-2.4.0-bin-hadoop2.7.tgz
+     - name: get Allstate Data
+       shell: gdown https://drive.google.com/open?uc=1pkAsU90ujcuh8R6R2SAdEeaBlI68a0If
       
 #    - name: start spark
 #      shell:  /opt/
