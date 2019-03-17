@@ -75,6 +75,9 @@
 
      - name: get Test Telecom Data 20
        shell: wget https://bml-data.s3.amazonaws.com/churn-bigml-20.csv /tmp
+       
+     - name: get Books data
+       shell: gdown https://drive.google.com/open?uc=1Rit6pgMhn3J5N5nLOhVZCT7feiRAJlt7
 
 #    - name: start spark
 #      shell:  /opt/
