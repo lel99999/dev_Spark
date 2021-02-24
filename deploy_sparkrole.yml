@@ -1,0 +1,70 @@
+---
+- hosts: research_environment
+  become: yes
+  become_method: sudo
+
+  vars:
+    custom_repo: true
+    deploy_iptables: true
+    envir: prod
+# vars_files:
+#   - ~/RHACCOUNT
+  become: yes
+  become_method: sudo
+
+  pre_tasks:
+    - name: register RHEL7 repo
+      command: "/usr/bin/subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms --enable=rhel-7-server-optional-rpms"
+    - name: register RHEL7 RHSCL Repo
+      shell: "/usr/bin/subscription-manager repos --enable=rhel-server-rhscl-7-rpms"
+    - name: register RHEL7 DevTools
+      shell: "/usr/bin/subscription-manager repos --enable=rhel-7-server-devtools-rpms"
+    - name: register RHEL7 DevTools
+      shell: "/usr/bin/subscription-manager repos --enable=rhel-server-rhscl-7-rpms"
+    - name: list RHEL enabled repos
+      shell: "/usr/bin/subscription-manager repos --list-enabled"
+      register: enabled_repos
+    - debug:
+        msg: "RHEL Enabled Repos: {{ enabled_repos }}"
+  tasks:
+    - name: Install Development Tools
+#     shell:  yum groupinstall "Development Tools" -y
+      yum:
+        name: "@Development tools"
+        state: present
+
+#   - name: Install JAVA OpenJDK 1.8
+#     shell: yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel -y
+
+  roles:
+#   - {role: puppet_disable, when: "disable_puppet"}
+#   - {role: iptables, when: "iptables_config"}
+#    - {role: common, when: "install_glusterfs"}
+
+- include: deploy_development_terminalRH7.yml
+- include: deploy_r_terminalRH7.yml
+
+- hosts: analytics_terminal7
+  become: yes
+  become_method: sudo
+  roles:
+#   - {role: eod, when: "install_desktop"}
+#   - {role: log-courier, when: "install_logstash"}
+##  - r_RH7
+##  - r-studio-serverRH7
+##  - r-studio-server-configRH7
+##  - r-shinyRH7
+##  - r-shiny-configRH7
+##  - r-studio-desktopRH7
+### - eod7
+    - spark3
+
+  post_tasks:
+    - name: Open port range for app prototyping
+      command: "iptables -I {{ iptables_chain }} 3 -m state --state NEW -p tcp --dport 8000:8100 -s {{ hostvars[item]['ansible_ssh_host'] }} -j ACCEPT"
+      when: iptables_config
+      with_items: "{{ groups['proxy_server'] }}"
+
+    - name: Save rules
+      command: "/sbin/service iptables save"
+      when: iptables_config
