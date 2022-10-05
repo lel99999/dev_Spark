@@ -24,27 +24,37 @@
     - name: make necessary dirs for install
       command: mkdir -p /usr/java
 
-    - name: install java jdk 1.8.x
-#     become: yes
-#     become_method: sudo
-      command: "wget -q -O {{java_archive}} -P {{ path_base }}  --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}}"
-#     command: "wget -q -O {{java_archive}} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{path_base}}"
+##     - name: install java jdk 1.8.x
+## #     become: yes
+## #     become_method: sudo
+##       command: "wget -q -O {{java_archive}} -P {{ path_base }}  --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}}"
+## #     command: "wget -q -O {{java_archive}} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{path_base}}"
+## 
+##     - name: extract java
+##       shell: tar -xvf /home/vagrant/jdk-8u201-linux-x64.tar.gz -C /usr/java
+## 
+##     - name: create java symbolic link
+##       shell: ln -s /usr/java/jdk1.8.0_201/bin/java /usr/bin/java
+## #     file:
+## #       src: /usr/java/jdk1.8.0_191/bin/java
+## #       dest: /usr/bin/java
+## #       owner: root
+## #       group: root
+## #       state: link
+## 
+##     - name: configure alternatives for java
+##       shell: alternatives --install /usr/bin/java java /usr/java/jdk1.8.0_201/bin/java 15
 
-    - name: extract java
-      shell: tar -xvf /home/vagrant/jdk-8u201-linux-x64.tar.gz -C /usr/java
-
-    - name: create java symbolic link
-      shell: ln -s /usr/java/jdk1.8.0_201/bin/java /usr/bin/java
-#     file:
-#       src: /usr/java/jdk1.8.0_191/bin/java
-#       dest: /usr/bin/java
-#       owner: root
-#       group: root
-#       state: link
-
-    - name: configure alternatives for java
-      shell: alternatives --install /usr/bin/java java /usr/java/jdk1.8.0_201/bin/java 15
-
+    - name: Install specified JDK version and dependencies
+      yum:
+        name: "{{ item }}"
+        state: present
+        disable_gpg_check: yes
+#     with_items: "{{ jdk_packages }}"
+      with_items:
+        - java-1.8.0-openjdk
+        - java-1.8.0-openjdk-devel
+ 
     - name: download epel
       shell:  wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -O /tmp/epel-release-latest-7.noarch.rpm   
     - name: Install epel
@@ -67,17 +77,17 @@
         src: /tmp/spark-2.4.0-bin-hadoop2.7.tgz
         dest: /opt
 #     shell: tar -xvzf /opt/spark-2.4.0-bin-hadoop2.7.tgz
-     - name: get Allstate Data
-       shell: gdown https://drive.google.com/open?uc=1pkAsU90ujcuh8R6R2SAdEeaBlI68a0If
+    - name: get Allstate Data
+      shell: gdown https://drive.google.com/open?uc=1pkAsU90ujcuh8R6R2SAdEeaBlI68a0If
 
-     - name: get Training Telecom Data 80
-       shell: wget https://bml-data.s3.amazonaws.com/churn-bigml-80.csv /tmp
+    - name: get Training Telecom Data 80
+      shell: wget https://bml-data.s3.amazonaws.com/churn-bigml-80.csv /tmp
 
-     - name: get Test Telecom Data 20
-       shell: wget https://bml-data.s3.amazonaws.com/churn-bigml-20.csv /tmp
+    - name: get Test Telecom Data 20
+      shell: wget https://bml-data.s3.amazonaws.com/churn-bigml-20.csv /tmp
        
-     - name: get Books data
-       shell: gdown https://drive.google.com/open?uc=1Rit6pgMhn3J5N5nLOhVZCT7feiRAJlt7
+    - name: get Books data
+      shell: gdown https://drive.google.com/open?uc=1Rit6pgMhn3J5N5nLOhVZCT7feiRAJlt7
 
 #    - name: start spark
 #      shell:  /opt/
