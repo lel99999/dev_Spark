@@ -12,7 +12,8 @@ Vagrant.configure("2") do |config|
 # end
 
   config.vm.define "sparkRH7" do |sparkRH7|
-    sparkRH7.vm.box = "RH7.5_baserepo"
+#   sparkRH7.vm.box = "RH7.5_baserepo"
+    sparkRH7.vm.box = "RH7.9_infra"
     sparkRH7.vm.hostname = "sparkRH7"
     sparkRH7.vm.network "private_network", ip: "192.168.60.142"
     sparkRH7.vm.provision "shell", :inline => "sudo echo '192.168.60.142 sparkRH7.local sparkRH7' >> /etc/hosts"
